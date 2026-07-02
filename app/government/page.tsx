@@ -1,30 +1,9 @@
 import Reveal from "@/components/Reveal";
 import ContourDivider from "@/components/ContourDivider";
 import CountUp from "@/components/CountUp";
+import HabitatVisual from "@/components/HabitatVisual";
+import { habitatLabels, policyAreas } from "@/data/content-data";
 import { countries, globalTotals } from "@/data/ocean-data";
-
-const policyAreas = [
-  {
-    n: "01",
-    title: "Marine spatial planning",
-    body: "Technical support to zone coastal waters for conservation, fisheries, and development — grounded in project-level habitat data.",
-  },
-  {
-    n: "02",
-    title: "MPA legislation support",
-    body: "Drafting and review support for marine protected area legal frameworks, drawing on enforcement outcomes from active sites.",
-  },
-  {
-    n: "03",
-    title: "Blue carbon accounting",
-    body: "Methodology and verification support for national blue-carbon inventories and credit frameworks.",
-  },
-  {
-    n: "04",
-    title: "Coastal livelihood transition",
-    body: "Program design for communities shifting from extractive fishing toward restoration-based livelihoods.",
-  },
-];
 
 export default function GovernmentPage() {
   return (
@@ -48,7 +27,6 @@ export default function GovernmentPage() {
         </div>
       </section>
 
-      {/* Country success stories */}
       <section className="px-6 md:px-10 pb-16">
         <div className="mx-auto max-w-7xl">
           <Reveal>
@@ -59,38 +37,48 @@ export default function GovernmentPage() {
           <div className="grid md:grid-cols-2 gap-4">
             {countries.map((c, i) => (
               <Reveal key={c.id} delay={i * 0.06}>
-                <div className="rounded-2xl border border-paper-line p-6 h-full">
-                  <div className="flex items-start justify-between">
-                    <h3 className="font-display text-xl">{c.name}</h3>
-                    <span
-                      className={`text-[11px] font-medium px-2 py-0.5 rounded-full ${
-                        c.govPartnership === "Active"
-                          ? "bg-biolum-dim text-biolum-strong"
-                          : "bg-amber-dim text-amber-strong"
-                      }`}
-                    >
-                      {c.govPartnership}
-                    </span>
-                  </div>
-                  <p className="text-sm text-ink-soft mt-2.5 leading-relaxed">{c.summary}</p>
-                  <div className="flex items-center gap-5 mt-4 pt-4 border-t border-paper-line">
-                    <div>
-                      <p className="text-[10px] uppercase tracking-wider text-ink-faint">MPAs</p>
-                      <p className="font-data text-sm">{c.mpaCount}</p>
+                <div className="rounded-2xl border border-paper-line overflow-hidden h-full">
+                  <HabitatVisual habitat={c.habitat} className="aspect-[3/1] rounded-none" />
+                  <div className="p-6">
+                    <div className="flex items-start justify-between gap-3">
+                      <div>
+                        <h3 className="font-display text-xl">{c.name}</h3>
+                        <p className="text-[11px] font-data text-ink-faint mt-1">
+                          {habitatLabels[c.habitat]} · {c.regions.length} regions
+                        </p>
+                      </div>
+                      <span
+                        className={`text-[11px] font-medium px-2 py-0.5 rounded-full shrink-0 ${
+                          c.govPartnership === "Active"
+                            ? "bg-biolum-dim text-biolum-strong"
+                            : c.govPartnership === "In negotiation"
+                              ? "bg-amber-dim text-amber-strong"
+                              : "bg-paper-dim text-ink-soft"
+                        }`}
+                      >
+                        {c.govPartnership}
+                      </span>
                     </div>
-                    <div>
-                      <p className="text-[10px] uppercase tracking-wider text-ink-faint">
-                        Hectares
-                      </p>
-                      <p className="font-data text-sm">
-                        {c.hectaresProtected.toLocaleString()}
-                      </p>
-                    </div>
-                    <div>
-                      <p className="text-[10px] uppercase tracking-wider text-ink-faint">
-                        CO2 (t)
-                      </p>
-                      <p className="font-data text-sm">{c.co2Reduced.toLocaleString()}</p>
+                    <p className="text-sm text-ink-soft mt-2.5 leading-relaxed">{c.summary}</p>
+                    <div className="flex items-center gap-5 mt-4 pt-4 border-t border-paper-line">
+                      <div>
+                        <p className="text-[10px] uppercase tracking-wider text-ink-faint">MPAs</p>
+                        <p className="font-data text-sm">{c.mpaCount}</p>
+                      </div>
+                      <div>
+                        <p className="text-[10px] uppercase tracking-wider text-ink-faint">
+                          Hectares
+                        </p>
+                        <p className="font-data text-sm">
+                          {c.hectaresProtected.toLocaleString()}
+                        </p>
+                      </div>
+                      <div>
+                        <p className="text-[10px] uppercase tracking-wider text-ink-faint">
+                          CO2 (t)
+                        </p>
+                        <p className="font-data text-sm">{c.co2Reduced.toLocaleString()}</p>
+                      </div>
                     </div>
                   </div>
                 </div>
@@ -104,7 +92,6 @@ export default function GovernmentPage() {
         <ContourDivider />
       </div>
 
-      {/* Policy frameworks — numbered because it's a genuine structured framework */}
       <section className="px-6 md:px-10 py-16" id="policy">
         <div className="mx-auto max-w-7xl">
           <Reveal>
@@ -115,15 +102,20 @@ export default function GovernmentPage() {
               Four areas of technical support
             </h2>
           </Reveal>
-          <div className="grid md:grid-cols-2 gap-x-10 gap-y-8">
+          <div className="grid md:grid-cols-2 gap-6">
             {policyAreas.map((p, i) => (
-              <Reveal key={p.n} delay={i * 0.06} className="flex gap-4">
-                <span className="font-data text-sm text-biolum-strong pt-1">{p.n}</span>
-                <div>
-                  <h3 className="font-medium text-ink">{p.title}</h3>
-                  <p className="text-sm text-ink-soft mt-1.5 leading-relaxed max-w-[46ch]">
-                    {p.body}
-                  </p>
+              <Reveal key={p.n} delay={i * 0.06}>
+                <div className="rounded-2xl border border-paper-line overflow-hidden h-full">
+                  <HabitatVisual habitat={p.habitat} className="aspect-[3/1] rounded-none" />
+                  <div className="p-5 flex gap-4">
+                    <span className="font-data text-sm text-biolum-strong pt-0.5">{p.n}</span>
+                    <div>
+                      <h3 className="font-medium text-ink">{p.title}</h3>
+                      <p className="text-sm text-ink-soft mt-1.5 leading-relaxed max-w-[46ch]">
+                        {p.body}
+                      </p>
+                    </div>
+                  </div>
                 </div>
               </Reveal>
             ))}
@@ -135,7 +127,6 @@ export default function GovernmentPage() {
         <ContourDivider />
       </div>
 
-      {/* Blue carbon data */}
       <section className="px-6 md:px-10 py-16" id="carbon">
         <div className="mx-auto max-w-7xl">
           <Reveal>
@@ -158,7 +149,7 @@ export default function GovernmentPage() {
                       <div
                         className="h-full bg-biolum"
                         style={{
-                          width: `${(c.co2Reduced / globalTotals.co2Reduced) * 100 * 2.2}%`,
+                          width: `${(c.co2Reduced / globalTotals.co2Reduced) * 100}%`,
                         }}
                       />
                     </div>
@@ -172,7 +163,6 @@ export default function GovernmentPage() {
         </div>
       </section>
 
-      {/* Government contact */}
       <section className="px-6 md:px-10 py-16" id="contact">
         <div className="mx-auto max-w-7xl bg-deep text-paper rounded-2xl p-10 md:p-14 flex flex-col md:flex-row items-start md:items-center justify-between gap-8">
           <div>

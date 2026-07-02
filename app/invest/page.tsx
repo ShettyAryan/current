@@ -14,23 +14,14 @@ import {
 import Reveal from "@/components/Reveal";
 import ContourDivider from "@/components/ContourDivider";
 import CountUp from "@/components/CountUp";
+import PersonAvatar from "@/components/PersonAvatar";
+import { leadership, reports } from "@/data/content-data";
 import { growthSeries, globalTotals, countries } from "@/data/ocean-data";
 
-const reports = [
-  { year: 2026, title: "Annual report FY26", size: "4.2 MB" },
-  { year: 2025, title: "Annual report FY25", size: "3.8 MB" },
-  { year: 2025, title: "ESG & sustainability report", size: "2.1 MB" },
-  { year: 2024, title: "Annual report FY24", size: "3.6 MB" },
-];
-
-const leadership = [
-  { name: "Dr. Amara Solano", role: "Executive Director", credential: "Former UNEP marine program lead" },
-  { name: "Rahul Nair", role: "Chief Financial Officer", credential: "15 years blended-finance structuring" },
-  { name: "Wei Lin Tan", role: "Director of Field Operations", credential: "Ran Indo-Pacific reef programs since 2014" },
-  { name: "Grace Odhiambo", role: "Director of Government Relations", credential: "Former Kenyan coastal policy advisor" },
-];
-
 export default function InvestPage() {
+  const totalFundingM = (globalTotals.fundingDeployedUsd / 1_000_000).toFixed(1);
+  const latestHectares = growthSeries[growthSeries.length - 1].hectares;
+
   return (
     <div>
       <section className="pt-14 pb-10 px-6 md:px-10">
@@ -50,7 +41,6 @@ export default function InvestPage() {
         </div>
       </section>
 
-      {/* Growth metrics */}
       <section className="px-6 md:px-10 pb-16" id="growth">
         <div className="mx-auto max-w-7xl grid md:grid-cols-2 gap-6">
           <Reveal className="bg-paper-dim rounded-2xl p-6 md:p-8">
@@ -58,7 +48,7 @@ export default function InvestPage() {
               Hectares under protection, cumulative
             </p>
             <p className="font-data text-2xl text-ink mb-4">
-              <CountUp value={globalTotals.hectaresProtected + 189000} />
+              <CountUp value={latestHectares} />
             </p>
             <div className="h-48">
               <ResponsiveContainer width="100%" height="100%">
@@ -99,9 +89,9 @@ export default function InvestPage() {
 
           <Reveal delay={0.1} className="bg-paper-dim rounded-2xl p-6 md:p-8">
             <p className="text-xs uppercase tracking-wider text-ink-faint mb-1">
-              Capital deployed, USD millions / year
+              Capital deployed, cumulative
             </p>
-            <p className="font-data text-2xl text-ink mb-4">$78.1M</p>
+            <p className="font-data text-2xl text-ink mb-4">${totalFundingM}M</p>
             <div className="h-48">
               <ResponsiveContainer width="100%" height="100%">
                 <BarChart data={growthSeries}>
@@ -133,7 +123,6 @@ export default function InvestPage() {
         <ContourDivider />
       </div>
 
-      {/* Financial highlights table */}
       <section className="px-6 md:px-10 py-16">
         <div className="mx-auto max-w-7xl">
           <Reveal>
@@ -178,7 +167,6 @@ export default function InvestPage() {
         <ContourDivider />
       </div>
 
-      {/* ESG + Annual reports */}
       <section className="px-6 md:px-10 py-16" id="esg">
         <div className="mx-auto max-w-7xl grid md:grid-cols-[1fr_1.2fr] gap-10">
           <Reveal>
@@ -216,7 +204,6 @@ export default function InvestPage() {
         <ContourDivider />
       </div>
 
-      {/* Leadership */}
       <section className="px-6 md:px-10 py-16">
         <div className="mx-auto max-w-7xl">
           <Reveal>
@@ -225,7 +212,7 @@ export default function InvestPage() {
           <div className="grid sm:grid-cols-2 md:grid-cols-4 gap-8">
             {leadership.map((p, i) => (
               <Reveal key={p.name} delay={i * 0.06}>
-                <div className="aspect-square rounded-xl bg-deep mb-4" />
+                <PersonAvatar name={p.name} initials={p.initials} accent={p.accent} />
                 <p className="text-sm font-medium">{p.name}</p>
                 <p className="text-xs text-biolum-strong mt-0.5">{p.role}</p>
                 <p className="text-xs text-ink-faint mt-1.5 leading-relaxed">
@@ -237,7 +224,6 @@ export default function InvestPage() {
         </div>
       </section>
 
-      {/* Investor contact */}
       <section className="px-6 md:px-10 py-16" id="contact">
         <div className="mx-auto max-w-7xl bg-deep text-paper rounded-2xl p-10 md:p-14 flex flex-col md:flex-row items-start md:items-center justify-between gap-8">
           <div>

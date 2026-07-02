@@ -3,18 +3,59 @@ import { ArrowRight, ArrowUpRight } from "lucide-react";
 import Reveal from "@/components/Reveal";
 import ContourDivider from "@/components/ContourDivider";
 import CountUp from "@/components/CountUp";
+import HabitatVisual from "@/components/HabitatVisual";
+import StoryCard from "@/components/StoryCard";
 import WorldExplorer from "@/components/WorldExplorer";
+import { fieldStories } from "@/data/content-data";
 import { globalTotals } from "@/data/ocean-data";
 
+const approach = [
+  {
+    n: "01",
+    label: "restoration",
+    title: "Mangrove, seagrass, and reef restoration",
+    body: "We rebuild the habitat that coastal fisheries and storm protection depend on — planting, monitoring, and maintaining it for the years it takes to actually take hold.",
+    habitat: "mangrove" as const,
+    className: "md:col-span-7 bg-paper-dim",
+  },
+  {
+    n: "02",
+    label: "protection",
+    title: "Marine protected area design",
+    body: "We work with governments and fishing communities to design MPAs that people can actually live with, and enforce.",
+    habitat: "mpa" as const,
+    className: "md:col-span-5 bg-deep text-paper",
+    dark: true,
+  },
+  {
+    n: "03",
+    label: "livelihoods",
+    title: "Community co-management",
+    body: "Every project trains and pays local wardens, monitors, and cooperative leads — conservation that has to also make economic sense to last.",
+    habitat: "community" as const,
+    className: "md:col-span-5 border border-paper-line",
+  },
+  {
+    n: "04",
+    label: "data",
+    title: "Every project, publicly tracked",
+    body: "Hectares, carbon, funding — published at the project level, not just rolled into an annual report.",
+    habitat: "data" as const,
+    className: "md:col-span-7 bg-amber-dim",
+    link: "/explore",
+  },
+];
+
 export default function Home() {
+  const featuredStory = fieldStories[0];
+
   return (
     <div>
-      {/* Hero — a live-feeling map moment, not a stock photo */}
       <section className="pt-14 md:pt-20 pb-10 px-6 md:px-10">
         <div className="mx-auto max-w-7xl grid md:grid-cols-[1.1fr_1fr] gap-10 items-end">
           <Reveal>
             <p className="font-data text-xs uppercase tracking-widest text-biolum-strong mb-4">
-              Field network · 5 countries · live
+              Field network · {globalTotals.countries} countries · live
             </p>
             <h1 className="font-display text-[2.6rem] leading-[1.05] md:text-6xl md:leading-[1.03] tracking-tight text-ink">
               Coastlines don&apos;t
@@ -60,24 +101,16 @@ export default function Home() {
         <ContourDivider />
       </div>
 
-      {/* Instrument-style metrics band */}
       <section className="px-6 md:px-10 py-10">
-        <div className="mx-auto max-w-7xl grid grid-cols-2 md:grid-cols-4 gap-6 md:gap-10">
+        <div className="mx-auto max-w-7xl grid grid-cols-2 md:grid-cols-5 gap-6 md:gap-8">
           {[
-            { label: "Countries active", value: globalTotals.countries, suffix: "" },
-            { label: "Active projects", value: globalTotals.activeProjects, suffix: "" },
-            {
-              label: "Hectares protected",
-              value: globalTotals.hectaresProtected,
-              suffix: "",
-            },
-            {
-              label: "Tonnes CO2 reduced",
-              value: globalTotals.co2Reduced,
-              suffix: "",
-            },
+            { label: "Countries active", value: globalTotals.countries },
+            { label: "Active projects", value: globalTotals.activeProjects },
+            { label: "Hectares protected", value: globalTotals.hectaresProtected },
+            { label: "Tonnes CO2 reduced", value: globalTotals.co2Reduced },
+            { label: "MPAs established", value: globalTotals.mpaCount },
           ].map((m, i) => (
-            <Reveal key={m.label} delay={i * 0.08}>
+            <Reveal key={m.label} delay={i * 0.06}>
               <p className="text-[11px] uppercase tracking-wider text-ink-faint mb-1">
                 {m.label}
               </p>
@@ -94,7 +127,6 @@ export default function Home() {
         <ContourDivider />
       </div>
 
-      {/* Approach — asymmetric, not a 3-equal-column grid */}
       <section className="px-6 md:px-10 py-16 md:py-24">
         <div className="mx-auto max-w-7xl">
           <Reveal>
@@ -107,64 +139,42 @@ export default function Home() {
           </Reveal>
 
           <div className="mt-14 grid md:grid-cols-12 gap-8 md:gap-6">
-            <Reveal className="md:col-span-7">
-              <div className="bg-paper-dim rounded-2xl p-8 md:p-10 h-full">
-                <p className="font-data text-xs text-ink-faint mb-3">01 — restoration</p>
-                <h3 className="font-display text-2xl mb-3">
-                  Mangrove, seagrass, and reef restoration
-                </h3>
-                <p className="text-ink-soft leading-relaxed max-w-[52ch]">
-                  We rebuild the habitat that coastal fisheries and storm
-                  protection depend on — planting, monitoring, and maintaining
-                  it for the years it takes to actually take hold.
-                </p>
-              </div>
-            </Reveal>
-            <Reveal delay={0.1} className="md:col-span-5">
-              <div className="bg-deep text-paper rounded-2xl p-8 md:p-10 h-full">
-                <p className="font-data text-xs text-paper/50 mb-3">02 — protection</p>
-                <h3 className="font-display text-2xl mb-3">
-                  Marine protected area design
-                </h3>
-                <p className="text-paper/75 leading-relaxed">
-                  We work with governments and fishing communities to design
-                  MPAs that people can actually live with, and enforce.
-                </p>
-              </div>
-            </Reveal>
-            <Reveal delay={0.2} className="md:col-span-5">
-              <div className="border border-paper-line rounded-2xl p-8 md:p-10 h-full">
-                <p className="font-data text-xs text-ink-faint mb-3">03 — livelihoods</p>
-                <h3 className="font-display text-2xl mb-3">
-                  Community co-management
-                </h3>
-                <p className="text-ink-soft leading-relaxed">
-                  Every project trains and pays local wardens, monitors, and
-                  cooperative leads — conservation that has to also make
-                  economic sense to last.
-                </p>
-              </div>
-            </Reveal>
-            <Reveal delay={0.3} className="md:col-span-7">
-              <div className="bg-amber-dim rounded-2xl p-8 md:p-10 h-full flex flex-col justify-between">
-                <div>
-                  <p className="font-data text-xs text-amber-strong mb-3">04 — data</p>
-                  <h3 className="font-display text-2xl mb-3">
-                    Every project, publicly tracked
-                  </h3>
-                  <p className="text-ink-soft leading-relaxed max-w-[48ch]">
-                    Hectares, carbon, funding — published at the project level,
-                    not just rolled into an annual report.
-                  </p>
+            {approach.map((item, i) => (
+              <Reveal key={item.n} delay={i * 0.08} className={item.className}>
+                <div className="rounded-2xl overflow-hidden h-full flex flex-col">
+                  <HabitatVisual
+                    habitat={item.habitat}
+                    variant={item.dark ? "dark" : "light"}
+                    className="aspect-[2.4/1] rounded-none"
+                  />
+                  <div className={`p-8 md:p-10 flex-1 flex flex-col ${item.dark ? "" : ""}`}>
+                    <p
+                      className={`font-data text-xs mb-3 ${
+                        item.dark ? "text-paper/50" : "text-ink-faint"
+                      }`}
+                    >
+                      {item.n} — {item.label}
+                    </p>
+                    <h3 className="font-display text-2xl mb-3">{item.title}</h3>
+                    <p
+                      className={`leading-relaxed max-w-[52ch] flex-1 ${
+                        item.dark ? "text-paper/75" : "text-ink-soft"
+                      }`}
+                    >
+                      {item.body}
+                    </p>
+                    {item.link && (
+                      <Link
+                        href={item.link}
+                        className="mt-6 inline-flex items-center gap-1.5 text-sm font-medium text-amber-strong"
+                      >
+                        See the global map <ArrowUpRight className="w-3.5 h-3.5" />
+                      </Link>
+                    )}
+                  </div>
                 </div>
-                <Link
-                  href="/explore"
-                  className="mt-6 inline-flex items-center gap-1.5 text-sm font-medium text-amber-strong"
-                >
-                  See the global map <ArrowUpRight className="w-3.5 h-3.5" />
-                </Link>
-              </div>
-            </Reveal>
+              </Reveal>
+            ))}
           </div>
         </div>
       </section>
@@ -173,30 +183,33 @@ export default function Home() {
         <ContourDivider />
       </div>
 
-      {/* Featured impact story */}
       <section className="px-6 md:px-10 py-16 md:py-24">
         <div className="mx-auto max-w-7xl">
           <Reveal>
             <p className="font-data text-xs uppercase tracking-widest text-biolum-strong mb-3">
               From the field
             </p>
+            <h2 className="font-display text-3xl md:text-4xl tracking-tight max-w-[20ch] mb-10">
+              Stories from the coastline
+            </h2>
           </Reveal>
           <Reveal delay={0.1}>
-            <blockquote className="font-display text-2xl md:text-4xl leading-snug max-w-[26ch] tracking-tight">
-              &ldquo;The mangroves came back before the fish did. Then the fish
-              came back too.&rdquo;
-            </blockquote>
-            <div className="mt-6 flex items-center justify-between flex-wrap gap-4">
-              <p className="text-sm text-ink-soft">
-                Fatima Devi, cooperative lead — Konkan coast, Maharashtra
-              </p>
-              <Link
-                href="/stories"
-                className="text-sm font-medium text-biolum-strong hover:underline"
-              >
-                Read the full story →
-              </Link>
-            </div>
+            <StoryCard story={featuredStory} featured />
+          </Reveal>
+          <div className="mt-6 grid md:grid-cols-3 gap-6">
+            {fieldStories.slice(1, 4).map((story, i) => (
+              <Reveal key={story.id} delay={0.12 + i * 0.06}>
+                <StoryCard story={story} />
+              </Reveal>
+            ))}
+          </div>
+          <Reveal delay={0.3}>
+            <Link
+              href="/stories"
+              className="mt-10 inline-flex items-center gap-2 text-sm font-medium text-biolum-strong hover:underline"
+            >
+              All impact stories <ArrowRight className="w-4 h-4" />
+            </Link>
           </Reveal>
         </div>
       </section>

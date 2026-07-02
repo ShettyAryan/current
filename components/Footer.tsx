@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { Waves } from "lucide-react";
 import ContourDivider from "./ContourDivider";
+import { globalTotals } from "@/data/ocean-data";
 
 const columns = [
   {
@@ -56,7 +57,7 @@ export default function Footer() {
             </Link>
             <p className="mt-4 text-sm text-paper/60 leading-relaxed max-w-[22ch]">
               A global marine restoration platform working across{" "}
-              <span className="font-data text-[13px] text-biolum">5 countries</span>.
+              <span className="font-data text-[13px] text-biolum">{globalTotals.countries} countries</span>.
             </p>
           </div>
 

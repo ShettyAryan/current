@@ -6,12 +6,18 @@ export type Region = {
   co2: number;
 };
 
+export type Habitat = "mangrove" | "reef" | "seagrass" | "mpa";
+
 export type Country = {
   id: string;
   name: string;
-  /** Marine project anchor — WGS84 coordinates for marker placement */
+  /** Marine project anchor — WGS84 coordinates */
   lat: number;
   lng: number;
+  /** Marker position on world-map.svg, as % of the 950×620 viewBox */
+  mapX: number;
+  mapY: number;
+  habitat: Habitat;
   projects: number;
   hectaresProtected: number;
   co2Reduced: number;
@@ -30,6 +36,9 @@ export const countries: Country[] = [
     name: "India",
     lat: 18,
     lng: 73,
+    mapX: 70.6,
+    mapY: 44.9,
+    habitat: "mangrove",
     projects: 14,
     hectaresProtected: 42000,
     co2Reduced: 118000,
@@ -52,6 +61,9 @@ export const countries: Country[] = [
     name: "Brazil",
     lat: -13,
     lng: -38.5,
+    mapX: 33.6,
+    mapY: 59.7,
+    habitat: "reef",
     projects: 9,
     hectaresProtected: 61000,
     co2Reduced: 205000,
@@ -74,6 +86,9 @@ export const countries: Country[] = [
     name: "Indonesia",
     lat: -4,
     lng: 118,
+    mapX: 82.3,
+    mapY: 58.5,
+    habitat: "reef",
     projects: 21,
     hectaresProtected: 88000,
     co2Reduced: 312000,
@@ -96,6 +111,9 @@ export const countries: Country[] = [
     name: "Kenya",
     lat: -3.8,
     lng: 39.7,
+    mapX: 59.6,
+    mapY: 55.2,
+    habitat: "seagrass",
     projects: 6,
     hectaresProtected: 19500,
     co2Reduced: 54000,
@@ -117,6 +135,9 @@ export const countries: Country[] = [
     name: "Philippines",
     lat: 13,
     lng: 122,
+    mapX: 82.9,
+    mapY: 47.5,
+    habitat: "mpa",
     projects: 12,
     hectaresProtected: 37000,
     co2Reduced: 96000,
@@ -132,6 +153,55 @@ export const countries: Country[] = [
       { id: "PL", name: "Palawan", projects: 5, hectares: 16000, co2: 41000 },
       { id: "CB", name: "Cebu", projects: 4, hectares: 12000, co2: 31000 },
       { id: "BT", name: "Batangas", projects: 3, hectares: 9000, co2: 24000 },
+    ],
+  },
+  {
+    id: "VN",
+    name: "Vietnam",
+    lat: 10,
+    lng: 106.5,
+    mapX: 78.1,
+    mapY: 47.5,
+    habitat: "mangrove",
+    projects: 8,
+    hectaresProtected: 24000,
+    co2Reduced: 68000,
+    mpaCount: 4,
+    govPartnership: "Active",
+    fundingGapUsd: 2800000,
+    fundingDeployedUsd: 6100000,
+    summary:
+      "Mekong Delta mangrove buffer restoration with provincial fisheries departments and coastal cooperatives.",
+    caseStudy:
+      "In Ben Tre province, cooperatives replanted 2,400 hectares of mangrove buffer zone, reducing storm surge damage for 12 fishing villages along the delta edge.",
+    regions: [
+      { id: "BT", name: "Ben Tre", projects: 3, hectares: 9800, co2: 28000 },
+      { id: "KG", name: "Kien Giang", projects: 3, hectares: 8200, co2: 24000 },
+      { id: "CT", name: "Ca Mau", projects: 2, hectares: 6000, co2: 16000 },
+    ],
+  },
+  {
+    id: "CR",
+    name: "Costa Rica",
+    lat: 8.5,
+    lng: -83.5,
+    mapX: 23.5,
+    mapY: 51.1,
+    habitat: "reef",
+    projects: 5,
+    hectaresProtected: 15200,
+    co2Reduced: 42000,
+    mpaCount: 3,
+    govPartnership: "Exploratory",
+    fundingGapUsd: 1900000,
+    fundingDeployedUsd: 3400000,
+    summary:
+      "Pacific coast reef recovery on the Osa Peninsula, partnering with national park authorities and local dive cooperatives.",
+    caseStudy:
+      "Coral nurseries and no-take zones along the Osa coast restored spawning grounds for snapper and grouper, with fish counts up 45% at monitoring sites within four years.",
+    regions: [
+      { id: "OS", name: "Osa Peninsula", projects: 3, hectares: 10200, co2: 28000 },
+      { id: "GC", name: "Golfo Dulce", projects: 2, hectares: 5000, co2: 14000 },
     ],
   },
 ];
@@ -150,6 +220,6 @@ export const growthSeries = [
   { year: 2022, hectares: 78000, funding: 24.8, projects: 34 },
   { year: 2023, hectares: 134000, funding: 41.2, projects: 46 },
   { year: 2024, hectares: 189000, funding: 58.9, projects: 55 },
-  { year: 2025, hectares: 227000, funding: 72.3, projects: 62 },
-  { year: 2026, hectares: 247500, funding: 81.6, projects: 62 },
+  { year: 2025, hectares: 260000, funding: 72.3, projects: 70 },
+  { year: 2026, hectares: 291700, funding: 81.6, projects: 75 },
 ];

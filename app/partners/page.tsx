@@ -1,26 +1,14 @@
 import Reveal from "@/components/Reveal";
 import ContourDivider from "@/components/ContourDivider";
+import HabitatVisual from "@/components/HabitatVisual";
+import {
+  certifications,
+  habitatLabels,
+  partnerChecklist,
+  partnerSteps,
+  trainings,
+} from "@/data/content-data";
 import { CheckCircle2 } from "lucide-react";
-
-const steps = [
-  { n: "01", title: "Apply", body: "Tell us about your organization and the coastline you work in." },
-  { n: "02", title: "Site assessment", body: "Our field team conducts a joint habitat and community assessment." },
-  { n: "03", title: "Agreement", body: "We agree scope, funding, and reporting cadence together." },
-  { n: "04", title: "Launch", body: "Your project goes live on the global map within 90 days." },
-];
-
-const checklist = [
-  "Registered nonprofit, cooperative, or community organization",
-  "Active presence in a coastal or marine community",
-  "Willingness to publish project-level outcome data",
-  "At least one dedicated field coordinator",
-];
-
-const trainings = [
-  { title: "Reef restoration fundamentals", level: "Beginner", duration: "3 days" },
-  { title: "Mangrove nursery management", level: "Intermediate", duration: "5 days" },
-  { title: "Community MPA enforcement", level: "Advanced", duration: "2 weeks" },
-];
 
 export default function PartnersPage() {
   return (
@@ -42,10 +30,9 @@ export default function PartnersPage() {
         </div>
       </section>
 
-      {/* Process — genuinely sequential, numbered is appropriate here */}
       <section className="px-6 md:px-10 pb-16">
         <div className="mx-auto max-w-7xl grid md:grid-cols-4 gap-6">
-          {steps.map((s, i) => (
+          {partnerSteps.map((s, i) => (
             <Reveal key={s.n} delay={i * 0.08}>
               <p className="font-data text-sm text-biolum-strong mb-3">{s.n}</p>
               <h3 className="font-medium mb-1.5">{s.title}</h3>
@@ -59,7 +46,6 @@ export default function PartnersPage() {
         <ContourDivider />
       </div>
 
-      {/* Qualification checklist */}
       <section className="px-6 md:px-10 py-16">
         <div className="mx-auto max-w-7xl grid md:grid-cols-2 gap-10 items-start">
           <Reveal>
@@ -74,7 +60,7 @@ export default function PartnersPage() {
           </Reveal>
           <Reveal delay={0.1}>
             <ul className="space-y-3">
-              {checklist.map((item) => (
+              {partnerChecklist.map((item) => (
                 <li key={item} className="flex items-start gap-3">
                   <CheckCircle2 className="w-4.5 h-4.5 text-biolum-strong shrink-0 mt-0.5" />
                   <span className="text-sm text-ink-soft">{item}</span>
@@ -89,20 +75,28 @@ export default function PartnersPage() {
         <ContourDivider />
       </div>
 
-      {/* Training */}
       <section className="px-6 md:px-10 py-16" id="training">
         <div className="mx-auto max-w-7xl">
           <Reveal>
             <h2 className="font-display text-2xl md:text-3xl mb-8">Training programs</h2>
           </Reveal>
-          <div className="space-y-2">
+          <div className="grid md:grid-cols-2 gap-4">
             {trainings.map((t, i) => (
               <Reveal key={t.title} delay={i * 0.06}>
-                <div className="flex items-center justify-between px-5 py-4 rounded-xl border border-paper-line hover:border-ink-faint transition-colors">
-                  <p className="text-sm font-medium">{t.title}</p>
-                  <div className="flex items-center gap-4 text-xs text-ink-faint font-data">
-                    <span>{t.level}</span>
-                    <span>{t.duration}</span>
+                <div className="rounded-2xl border border-paper-line overflow-hidden h-full hover:border-ink-faint transition-colors">
+                  <HabitatVisual habitat={t.habitat} className="aspect-[3/1] rounded-none" />
+                  <div className="p-5">
+                    <div className="flex items-start justify-between gap-3">
+                      <p className="text-sm font-medium">{t.title}</p>
+                      <span className="rounded-full bg-biolum-dim px-2 py-0.5 text-[10px] font-medium text-biolum-strong shrink-0">
+                        {habitatLabels[t.habitat]}
+                      </span>
+                    </div>
+                    <p className="text-xs text-ink-soft mt-2 leading-relaxed">{t.modules}</p>
+                    <div className="flex items-center gap-4 text-xs text-ink-faint font-data mt-4">
+                      <span>{t.level}</span>
+                      <span>{t.duration}</span>
+                    </div>
                   </div>
                 </div>
               </Reveal>
@@ -111,7 +105,33 @@ export default function PartnersPage() {
         </div>
       </section>
 
-      {/* CTA */}
+      <div className="px-6 md:px-10">
+        <ContourDivider />
+      </div>
+
+      <section className="px-6 md:px-10 py-16" id="certification">
+        <div className="mx-auto max-w-7xl">
+          <Reveal>
+            <p className="font-data text-xs uppercase tracking-widest text-biolum-strong mb-3">
+              Certification
+            </p>
+            <h2 className="font-display text-2xl md:text-3xl mb-8 max-w-[22ch]">
+              Recognized field standards
+            </h2>
+          </Reveal>
+          <div className="grid md:grid-cols-2 gap-4">
+            {certifications.map((c, i) => (
+              <Reveal key={c.title} delay={i * 0.08}>
+                <div className="rounded-2xl bg-paper-dim border border-paper-line p-6 h-full">
+                  <h3 className="font-display text-xl">{c.title}</h3>
+                  <p className="text-sm text-ink-soft mt-2 leading-relaxed">{c.body}</p>
+                </div>
+              </Reveal>
+            ))}
+          </div>
+        </div>
+      </section>
+
       <section className="px-6 md:px-10 py-16" id="network">
         <div className="mx-auto max-w-7xl bg-deep text-paper rounded-2xl p-10 md:p-14 flex flex-col md:flex-row items-start md:items-center justify-between gap-8">
           <div>

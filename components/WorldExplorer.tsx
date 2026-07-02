@@ -2,8 +2,9 @@
 
 import { useMemo, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
+import { habitatLabels } from "@/data/content-data";
 import { countries, type Country, type Region } from "@/data/ocean-data";
-import { projectToMapPercent } from "@/lib/map-projection";
+import { MAP_VIEWBOX } from "@/lib/map-projection";
 import CountUp from "./CountUp";
 import { ChevronRight, X, MapPin } from "lucide-react";
 
@@ -109,90 +110,93 @@ export default function WorldExplorer({
       <div
         className={`relative w-full ${height} rounded-2xl overflow-hidden bg-deep border border-deep-light`}
       >
-        {/* Map canvas — shared coordinate space for landmass + markers */}
-        <div className="absolute inset-0 flex items-center justify-center p-3 sm:p-4">
-          <div className="relative h-full w-full max-w-full aspect-95/62">
-            <img
-              src="/world-map.svg"
-              alt=""
-              aria-hidden
-              draggable={false}
-              className="pointer-events-none absolute inset-0 h-full w-full select-none object-contain opacity-[0.42]"
+        {/* Map canvas — SVG viewBox keeps markers aligned on every page size */}
+        <div className="absolute inset-0 p-3 sm:p-4">
+          <svg
+            viewBox={`0 0 ${MAP_VIEWBOX.width} ${MAP_VIEWBOX.height}`}
+            className="h-full w-full"
+            preserveAspectRatio="xMidYMid meet"
+            role="img"
+            aria-label="World map of Current field projects"
+          >
+            <image
+              href="/world-map.svg"
+              width={MAP_VIEWBOX.width}
+              height={MAP_VIEWBOX.height}
+              opacity={0.42}
             />
 
-            {/* Lat/long grid over the map */}
-            <svg
-              className="pointer-events-none absolute inset-0 h-full w-full opacity-50"
-              viewBox="0 0 100 100"
-              preserveAspectRatio="none"
-            >
-              {Array.from({ length: 9 }).map((_, i) => (
-                <line
-                  key={`v-${i}`}
-                  x1={(i + 1) * 10}
-                  y1={0}
-                  x2={(i + 1) * 10}
-                  y2={100}
-                  stroke="#f4efe6"
-                  strokeOpacity={0.05}
-                  strokeWidth={0.12}
-                />
-              ))}
-              {Array.from({ length: 9 }).map((_, i) => (
-                <line
-                  key={`h-${i}`}
-                  x1={0}
-                  y1={(i + 1) * 10}
-                  x2={100}
-                  y2={(i + 1) * 10}
-                  stroke="#f4efe6"
-                  strokeOpacity={0.05}
-                  strokeWidth={0.12}
-                />
-              ))}
-            </svg>
+            {Array.from({ length: 9 }).map((_, i) => (
+              <line
+                key={`v-${i}`}
+                x1={((i + 1) * MAP_VIEWBOX.width) / 10}
+                y1={0}
+                x2={((i + 1) * MAP_VIEWBOX.width) / 10}
+                y2={MAP_VIEWBOX.height}
+                stroke="#f4efe6"
+                strokeOpacity={0.05}
+                strokeWidth={0.8}
+              />
+            ))}
+            {Array.from({ length: 9 }).map((_, i) => (
+              <line
+                key={`h-${i}`}
+                x1={0}
+                y1={((i + 1) * MAP_VIEWBOX.height) / 10}
+                x2={MAP_VIEWBOX.width}
+                y2={((i + 1) * MAP_VIEWBOX.height) / 10}
+                stroke="#f4efe6"
+                strokeOpacity={0.05}
+                strokeWidth={0.8}
+              />
+            ))}
 
-            {/* Country markers */}
             {countries.map((c) => {
               const isSelected = selected?.id === c.id;
-              const { x, y } = projectToMapPercent(c.lat, c.lng);
+              const x = (c.mapX / 100) * MAP_VIEWBOX.width;
+              const y = (c.mapY / 100) * MAP_VIEWBOX.height;
+
               return (
-                <button
+                <g
                   key={c.id}
+                  transform={`translate(${x}, ${y})`}
+                  className="cursor-pointer"
                   onClick={() => {
                     setSelected(c);
                     setRegion(null);
                   }}
-                  className="absolute z-10 -translate-x-1/2 -translate-y-1/2 group"
-                  style={{ left: `${x}%`, top: `${y}%` }}
+                  role="button"
                   aria-label={`View ${c.name}`}
                 >
-                  <span className="relative flex items-center justify-center w-4 h-4">
-                    <motion.span
-                      className="absolute inset-0 rounded-full bg-biolum"
-                      animate={{
-                        scale: isSelected ? [1, 1.9, 1] : [1, 1.6, 1],
-                        opacity: isSelected ? [0.5, 0, 0.5] : [0.35, 0, 0.35],
-                      }}
-                      transition={{ duration: 2.2, repeat: Infinity, ease: "easeInOut" }}
-                    />
-                    <span
-                      className={`relative rounded-full border-2 border-paper transition-all ${
-                        isSelected ? "w-3.5 h-3.5 bg-amber" : "w-2.5 h-2.5 bg-biolum"
-                      }`}
-                    />
-                  </span>
-                  <span
-                    className={`pointer-events-none absolute left-1/2 -translate-x-1/2 top-5 whitespace-nowrap text-[11px] font-medium px-2 py-0.5 rounded-full bg-paper/95 text-ink transition-opacity ${
-                      isSelected ? "opacity-100" : "opacity-0 group-hover:opacity-100"
-                    }`}
+                  <circle
+                    r={isSelected ? 14 : 11}
+                    fill="#2e9c82"
+                    opacity={isSelected ? 0.35 : 0.25}
+                    className="animate-pulse"
+                  />
+                  <circle
+                    r={isSelected ? 5.5 : 4}
+                    fill={isSelected ? "#d97d3d" : "#2e9c82"}
+                    stroke="#f4efe6"
+                    strokeWidth={2}
+                  />
+                  <text
+                    y={20}
+                    textAnchor="middle"
+                    fill="#f4efe6"
+                    fontSize={11}
+                    fontWeight={500}
+                    opacity={isSelected ? 1 : 0}
+                    className="select-none"
+                    style={{ fontFamily: "Inter, sans-serif", pointerEvents: "none" }}
                   >
                     {c.name}
-                  </span>
-                </button>
+                  </text>
+                  <title>{c.name}</title>
+                </g>
               );
             })}
-          </div>
+          </svg>
         </div>
 
         {/* Bathymetric contour rings — ambient depth outside the map */}
@@ -248,15 +252,20 @@ export default function WorldExplorer({
                 </div>
 
                 {!region && (
-                  <span
-                    className={`inline-block mt-2 text-[11px] font-medium px-2 py-0.5 rounded-full ${
-                      selected.govPartnership === "Active"
-                        ? "bg-biolum-dim text-biolum-strong"
-                        : "bg-amber-dim text-amber-strong"
-                    }`}
-                  >
-                    {selected.govPartnership} government partnership
-                  </span>
+                  <div className="mt-2 flex flex-wrap items-center gap-2">
+                    <span
+                      className={`inline-block text-[11px] font-medium px-2 py-0.5 rounded-full ${
+                        selected.govPartnership === "Active"
+                          ? "bg-biolum-dim text-biolum-strong"
+                          : "bg-amber-dim text-amber-strong"
+                      }`}
+                    >
+                      {selected.govPartnership} government partnership
+                    </span>
+                    <span className="rounded-full bg-paper-dim px-2 py-0.5 text-[11px] font-medium text-ink-soft">
+                      {habitatLabels[selected.habitat]}
+                    </span>
+                  </div>
                 )}
 
                 {/* Metric readouts — shared across all layers */}
