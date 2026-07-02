@@ -1,0 +1,90 @@
+@import "tailwindcss";
+
+/* Self-hosted fonts — no external network calls at build or runtime */
+@import "@fontsource/fraunces/400.css";
+@import "@fontsource/fraunces/500.css";
+@import "@fontsource/fraunces/600.css";
+@import "@fontsource/fraunces/600-italic.css";
+@import "@fontsource/inter/400.css";
+@import "@fontsource/inter/500.css";
+@import "@fontsource/inter/600.css";
+@import "@fontsource/jetbrains-mono/400.css";
+@import "@fontsource/jetbrains-mono/500.css";
+
+:root {
+  /* Chart Paper & Bioluminescence — light-mode-first design system */
+  --color-paper: #f4efe6;       /* dominant background, aged chart-paper ivory */
+  --color-paper-dim: #ece4d3;   /* slightly deeper paper for section alternation */
+  --color-paper-line: #ddd3bd;  /* hairline dividers on paper */
+
+  --color-ink: #241640;         /* primary text / structural color, stands in for black */
+  --color-ink-soft: #241640a6;  /* secondary text, ~65% */
+  --color-ink-faint: #24164066; /* tertiary / muted text, ~40% */
+
+  --color-deep: #3a2360;        /* deep current — deliberate dark band, not default surface */
+  --color-deep-light: #4f3080;
+  --color-deep-paper: #e7dcf5;  /* deep-tinted paper for panels on the dark band */
+
+  --color-biolum: #2e9c82;      /* bioluminescence accent — live data, links, active states */
+  --color-biolum-dim: #e3f1ec;  /* light tint for badges/backgrounds */
+  --color-biolum-strong: #217a67;
+
+  --color-amber: #d97d3d;       /* human warmth accent — CTAs, storytelling moments */
+  --color-amber-dim: #f8e9dc;
+  --color-amber-strong: #b8632c;
+
+  --font-display: "Fraunces", ui-serif, Georgia, serif;
+  --font-body: "Inter", ui-sans-serif, system-ui, sans-serif;
+  --font-data: "JetBrains Mono", ui-monospace, monospace;
+}
+
+@theme inline {
+  --color-paper: var(--color-paper);
+  --color-paper-dim: var(--color-paper-dim);
+  --color-paper-line: var(--color-paper-line);
+  --color-ink: var(--color-ink);
+  --color-ink-soft: var(--color-ink-soft);
+  --color-ink-faint: var(--color-ink-faint);
+  --color-deep: var(--color-deep);
+  --color-deep-light: var(--color-deep-light);
+  --color-deep-paper: var(--color-deep-paper);
+  --color-biolum: var(--color-biolum);
+  --color-biolum-dim: var(--color-biolum-dim);
+  --color-biolum-strong: var(--color-biolum-strong);
+  --color-amber: var(--color-amber);
+  --color-amber-dim: var(--color-amber-dim);
+  --color-amber-strong: var(--color-amber-strong);
+
+  --font-display: var(--font-display);
+  --font-body: var(--font-body);
+  --font-data: var(--font-data);
+}
+
+* {
+  border-color: var(--color-paper-line);
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  background: var(--color-paper);
+  color: var(--color-ink);
+  font-family: var(--font-body);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+/* Custom text-selection tint, in keeping with the palette */
+::selection {
+  background: var(--color-biolum-dim);
+  color: var(--color-biolum-strong);
+}
