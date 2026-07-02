@@ -1,6 +1,7 @@
 import Link from "next/link";
 import HabitatVisual from "@/components/HabitatVisual";
 import { habitatLabels, type FieldStory } from "@/data/content-data";
+import { storyImages } from "@/data/images";
 
 export default function StoryCard({
   story,
@@ -9,6 +10,9 @@ export default function StoryCard({
   story: FieldStory;
   featured?: boolean;
 }) {
+  const image =
+    story.image ?? storyImages[story.id as keyof typeof storyImages] ?? undefined;
+
   return (
     <article
       className={`group overflow-hidden rounded-2xl border border-paper-line bg-paper transition-colors hover:border-ink-faint ${
@@ -17,6 +21,8 @@ export default function StoryCard({
     >
       <HabitatVisual
         habitat={story.habitat}
+        image={image}
+        priority={featured}
         className={featured ? "min-h-[220px] md:min-h-full md:rounded-none md:rounded-l-2xl" : "aspect-[16/9] rounded-b-none"}
       />
       <div className={`p-6 md:p-8 ${featured ? "flex flex-col justify-center" : ""}`}>

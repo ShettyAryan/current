@@ -1,7 +1,9 @@
 import Reveal from "@/components/Reveal";
 import ContourDivider from "@/components/ContourDivider";
 import CountUp from "@/components/CountUp";
+import FieldImage from "@/components/FieldImage";
 import WorldExplorer from "@/components/WorldExplorer";
+import { habitatImages } from "@/data/images";
 import { globalTotals } from "@/data/ocean-data";
 
 export default function ExplorePage() {
@@ -21,6 +23,15 @@ export default function ExplorePage() {
               same data the way a funder, a government partner, or a visitor
               would read it.
             </p>
+          </Reveal>
+          <Reveal delay={0.1}>
+            <FieldImage
+              src={habitatImages.mpa}
+              alt="Aerial view of a coastline"
+              className="mt-10 aspect-[3/1] rounded-2xl"
+              overlay="warm"
+              sizes="100vw"
+            />
           </Reveal>
         </div>
       </section>

@@ -9,6 +9,8 @@ import WorldExplorer from "@/components/WorldExplorer";
 import { fieldStories } from "@/data/content-data";
 import { globalTotals } from "@/data/ocean-data";
 
+import { approachImages } from "@/data/images";
+
 const approach = [
   {
     n: "01",
@@ -16,6 +18,7 @@ const approach = [
     title: "Mangrove, seagrass, and reef restoration",
     body: "We rebuild the habitat that coastal fisheries and storm protection depend on — planting, monitoring, and maintaining it for the years it takes to actually take hold.",
     habitat: "mangrove" as const,
+    image: approachImages.restoration,
     className: "md:col-span-7 bg-paper-dim",
   },
   {
@@ -24,6 +27,7 @@ const approach = [
     title: "Marine protected area design",
     body: "We work with governments and fishing communities to design MPAs that people can actually live with, and enforce.",
     habitat: "mpa" as const,
+    image: approachImages.protection,
     className: "md:col-span-5 bg-deep text-paper",
     dark: true,
   },
@@ -33,6 +37,7 @@ const approach = [
     title: "Community co-management",
     body: "Every project trains and pays local wardens, monitors, and cooperative leads — conservation that has to also make economic sense to last.",
     habitat: "community" as const,
+    image: approachImages.livelihoods,
     className: "md:col-span-5 border border-paper-line",
   },
   {
@@ -41,6 +46,7 @@ const approach = [
     title: "Every project, publicly tracked",
     body: "Hectares, carbon, funding — published at the project level, not just rolled into an annual report.",
     habitat: "data" as const,
+    image: approachImages.data,
     className: "md:col-span-7 bg-amber-dim",
     link: "/explore",
   },
@@ -144,6 +150,7 @@ export default function Home() {
                 <div className="rounded-2xl overflow-hidden h-full flex flex-col">
                   <HabitatVisual
                     habitat={item.habitat}
+                    image={item.image}
                     variant={item.dark ? "dark" : "light"}
                     className="aspect-[2.4/1] rounded-none"
                   />

@@ -3,6 +3,7 @@ import ContourDivider from "@/components/ContourDivider";
 import CountUp from "@/components/CountUp";
 import HabitatVisual from "@/components/HabitatVisual";
 import { habitatLabels, policyAreas } from "@/data/content-data";
+import { countryImages } from "@/data/images";
 import { countries, globalTotals } from "@/data/ocean-data";
 
 export default function GovernmentPage() {
@@ -38,7 +39,11 @@ export default function GovernmentPage() {
             {countries.map((c, i) => (
               <Reveal key={c.id} delay={i * 0.06}>
                 <div className="rounded-2xl border border-paper-line overflow-hidden h-full">
-                  <HabitatVisual habitat={c.habitat} className="aspect-[3/1] rounded-none" />
+                  <HabitatVisual
+                    habitat={c.habitat}
+                    image={countryImages[c.id as keyof typeof countryImages]}
+                    className="aspect-[3/1] rounded-none"
+                  />
                   <div className="p-6">
                     <div className="flex items-start justify-between gap-3">
                       <div>

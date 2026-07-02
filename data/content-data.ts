@@ -14,6 +14,7 @@ export type FieldStory = {
   date: string;
   readMinutes: number;
   highlight?: string;
+  image?: string;
 };
 
 export const featuredQuote = {

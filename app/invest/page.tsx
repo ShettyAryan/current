@@ -14,8 +14,9 @@ import {
 import Reveal from "@/components/Reveal";
 import ContourDivider from "@/components/ContourDivider";
 import CountUp from "@/components/CountUp";
-import PersonAvatar from "@/components/PersonAvatar";
+import FieldImage from "@/components/FieldImage";
 import { leadership, reports } from "@/data/content-data";
+import { leadershipImages } from "@/data/images";
 import { growthSeries, globalTotals, countries } from "@/data/ocean-data";
 
 export default function InvestPage() {
@@ -212,7 +213,13 @@ export default function InvestPage() {
           <div className="grid sm:grid-cols-2 md:grid-cols-4 gap-8">
             {leadership.map((p, i) => (
               <Reveal key={p.name} delay={i * 0.06}>
-                <PersonAvatar name={p.name} initials={p.initials} accent={p.accent} />
+                <FieldImage
+                  src={leadershipImages[p.name as keyof typeof leadershipImages]}
+                  alt={p.name}
+                  className="mb-4 aspect-square rounded-xl"
+                  overlay="subtle"
+                  sizes="(max-width: 768px) 50vw, 25vw"
+                />
                 <p className="text-sm font-medium">{p.name}</p>
                 <p className="text-xs text-biolum-strong mt-0.5">{p.role}</p>
                 <p className="text-xs text-ink-faint mt-1.5 leading-relaxed">

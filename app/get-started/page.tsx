@@ -1,5 +1,7 @@
 import Link from "next/link";
 import Reveal from "@/components/Reveal";
+import FieldImage from "@/components/FieldImage";
+import { habitatImages } from "@/data/images";
 import { ArrowUpRight } from "lucide-react";
 
 const paths = [
@@ -20,6 +22,16 @@ export default function GetStartedPage() {
           <p className="text-ink-soft max-w-[50ch] mb-14 leading-relaxed">
             Pick the path that fits — each one goes to the right team.
           </p>
+        </Reveal>
+
+        <Reveal delay={0.08}>
+          <FieldImage
+            src={habitatImages.community}
+            alt="Coastal community at work"
+            className="mb-14 aspect-[21/9] rounded-2xl"
+            overlay="warm"
+            sizes="100vw"
+          />
         </Reveal>
 
         <div className="grid md:grid-cols-2 gap-4">
